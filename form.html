@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #output {
+            margin-top: 20px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Entry Form</h1>
+        <form id="encryptionForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="output"></div>
+    </div>
+    <script>
+        const encryptionKey = 3; // This is the key for the Caesar cipher.
+
+        document.getElementById('encryptionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const encryptedEmail = caesarCipher(email, encryptionKey);
+            const encryptedPassword = caesarCipher(password, encryptionKey);
+
+            document.getElementById('output').innerHTML = `
+                <p><strong>Code 1:</strong> ${encryptedEmail}</p>
+                <p><strong>Code 2:</strong> ${encryptedPassword}</p>
+            `;
+            console.alert('your details have been sent')
+        });
+
+        function caesarCipher(text, shift) {
+            return text.split('').map(char => {
+                const charCode = char.charCodeAt(0);
+
+                if (charCode >= 65 && charCode <= 90) {
+                    // Uppercase letters
+                    return String.fromCharCode(((charCode - 65 + shift) % 26) + 65);
+                } else if (charCode >= 97 && charCode <= 122) {
+                    // Lowercase letters
+                    return String.fromCharCode(((charCode - 97 + shift) % 26) + 97);
+                } else {
+                    // Non-alphabetical characters
+                    return char;
+                }
+            }).join('');
+        }
+    </script>
+</body>
+</html>
